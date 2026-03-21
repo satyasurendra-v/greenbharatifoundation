@@ -421,29 +421,142 @@
   .fade-in.visible { opacity: 1; transform: none; }
 
   /* ── MOBILE ── */
-  @media (max-width: 768px) {
-    nav { padding: 1rem; }
-    .nav-links { display: none; }
-    .mission-grid, .founder-grid, .contact-grid { grid-template-columns: 1fr; }
-    .hero { padding: 7rem 1.2rem 3rem; }
-    .hero-stats { gap: 1.5rem; }
-    section { padding: 3.5rem 1.2rem; }
+  @media (max-width: 900px) {
+
+    /* NAV: hide links, show hamburger */
+    nav { padding: 0.9rem 1.2rem; }
+    .nav-links { display: none; flex-direction: column; gap: 0; list-style: none; }
+    .nav-links.open {
+      display: flex; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15,36,24,0.98); z-index: 999;
+      align-items: center; justify-content: center; gap: 0;
+    }
+    .nav-links.open li { width: 100%; text-align: center; }
+    .nav-links.open a {
+      display: block; padding: 1rem 2rem; font-size: 1.15rem;
+      color: rgba(255,255,255,0.85); border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-links.open a:hover { color: var(--green-bright); background: rgba(255,255,255,0.04); }
+    .nav-links.open .nav-cta {
+      background: var(--green-bright); color: var(--green-deep) !important;
+      border-radius: 0; margin-top: 0.5rem;
+    }
+    /* Hamburger button */
+    .hamburger {
+      display: flex; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px; z-index: 1000;
+      background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    /* Close (X) button inside menu */
+    .menu-close-area {
+      position: fixed; inset: 0; z-index: 998; display: none;
+    }
+    .nav-links.open ~ .menu-close-area { display: block; }
+
+    /* HERO */
+    .hero { padding: 6.5rem 1.2rem 3rem; }
+    .hero h1 { font-size: 2.2rem; }
+    .hero-sub { font-size: 0.97rem; }
+    .hero-stats { gap: 1.2rem; flex-wrap: wrap; }
+    .stat-num { font-size: 1.8rem; }
+
+    /* SECTIONS */
+    section { padding: 3rem 1.2rem; }
+    .section-title { font-size: 1.7rem; }
+
+    /* GRIDS → single column */
+    .mission-grid,
+    .founder-grid,
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+    /* MISSION visual height reduced on mobile */
+    .mission-visual { height: 280px; }
+
+    /* CSR intro → single column (fixes the broken layout) */
+    .csr-intro { grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+    .csr-highlight-box { padding: 1.4rem 1.2rem; }
+    .csr-highlight-box p { font-size: 0.88rem; }
+    .csr-cards { grid-template-columns: 1fr; }
+    .csr-cta-strip { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.2rem; }
+    .csr-eligibility { padding: 1.2rem; }
+
+    /* INVOLVE cards → single column */
+    .involve-grid { grid-template-columns: 1fr 1fr; }
+
+    /* CONTACT form row */
     .form-row { grid-template-columns: 1fr; }
+
+    /* OBJ grid */
+    .obj-grid { grid-template-columns: 1fr; }
+
+    /* HERO buttons stack */
+    .hero-buttons { flex-direction: column; gap: 0.8rem; }
+    .btn-primary, .btn-outline { text-align: center; }
+
+    /* Impact bands */
+    .impact-num { font-size: 1.8rem; min-width: 44px; }
+    .impact-band { gap: 1rem; }
+
+    /* Scroll to top repositioned */
+    .scroll-top { bottom: 1.2rem; right: 1.2rem; width: 40px; height: 40px; }
   }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.9rem; }
+    .involve-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1rem; }
+    .stat-num { font-size: 1.6rem; }
+    .ports-served { gap: 0.4rem; }
+    .port-badge { font-size: 0.75rem; padding: 0.3rem 0.7rem; }
+    .logo-text { font-size: 0.95rem; }
+  }
+
+  /* ── SCROLL TO TOP ── */
+  .scroll-top {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+    width: 46px; height: 46px;
+    background: var(--green-mid);
+    border: 1.5px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.3s, transform 0.3s, background 0.2s;
+    pointer-events: none;
+  }
+  .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .scroll-top:hover { background: var(--green-bright); border-color: var(--green-bright); }
+  .scroll-top svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  /* Logo clickable */
+  a.nav-logo { cursor: pointer; }
+  a.nav-logo:hover .logo-mark { transform: scale(1.1); transition: transform 0.2s; }
+  a.nav-logo:hover .logo-text { color: var(--green-bright); transition: color 0.2s; }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
+  <a href="#home" class="nav-logo" style="text-decoration:none;">
     <div class="logo-mark">🌿</div>
     <div class="logo-text">
       Green Bharati Foundation
       <span>Section 8 Company · Reg. India</span>
     </div>
-  </div>
-  <ul class="nav-links">
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
     <li><a href="#mission">Mission</a></li>
     <li><a href="#objectives">Objectives</a></li>
     <li><a href="#csr">CSR</a></li>
@@ -452,6 +565,7 @@
     <li><a href="#contact" class="nav-cta">Join Us</a></li>
   </ul>
 </nav>
+<div class="menu-close-area" id="menuClose" onclick="toggleMenu()"></div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -814,20 +928,63 @@
   <p style="margin-top:0.5rem;">© 2025 Green Bharati Foundation · greenbharatifoundation.org · All Rights Reserved</p>
 </footer>
 
-<script>
-// Scroll-triggered fade-in
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
-// Form submit
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Fade-in on scroll
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // Scroll-to-top button visibility
+  var scrollBtn = document.getElementById('scrollTop');
+  if (scrollBtn) {
+    window.addEventListener('scroll', function() {
+      scrollBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+  }
+
+  // Close mobile menu when any nav link is tapped
+  document.querySelectorAll('#navLinks a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      var nav = document.getElementById('navLinks');
+      var burger = document.getElementById('hamburger');
+      if (nav) nav.classList.remove('open');
+      if (burger) burger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+});
+
+// Hamburger toggle — must be global (used in onclick attribute)
+function toggleMenu() {
+  var nav = document.getElementById('navLinks');
+  var burger = document.getElementById('hamburger');
+  if (!nav || !burger) return;
+  nav.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+
+// Contact form — must be global (used in onsubmit attribute)
 function handleSubmit(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('button');
-  btn.textContent = '✅ Message Sent! We\'ll be in touch.';
+  var btn = e.target.querySelector('button');
+  if (!btn) return;
+  btn.textContent = "✅ Message Sent! We'll be in touch.";
   btn.style.background = '#52b788';
-  setTimeout(() => {
+  setTimeout(function() {
     btn.textContent = 'Send Message 🌿';
     e.target.reset();
   }, 4000);
